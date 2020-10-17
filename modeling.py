@@ -850,25 +850,7 @@ def transformer_model(input_tensor,
         else:
           # In the case where we have other sequences, we just concatenate
           # them to the self-attention head before the projection.
-          attention_output = tf.concat(attention_heads, axis=-1)
-
-        # Run a linear projection of `hidden_size` then add a residual
-        # with `layer_input`.
-        with tf.variable_scope("output"):
-          attention_output = tf.layers.dense(
-              attention_output,
-              hidden_size,
-              kernel_initializer=create_initializer(initializer_range))
-          attention_output = dropout(attention_output, hidden_dropout_prob)
-          attention_output = layer_norm(attention_output + layer_input)
-
-      # The activation is only applied to the "intermediate" hidden layer.
-      with tf.variable_scope("intermediate"):
-        intermediate_output = tf.layers.dense(
-            attention_output,
-            intermediate_size,
-            activation=intermediate_act_fn,
-            kernel_initializer=create_initializer(initializer_range))
+          attention_output = tf.concat(attention_heads, axis =-1)
 
       # Down-project back to `hidden_size` then add the residual.
       with tf.variable_scope("output"):
