@@ -826,7 +826,7 @@ def transformer_model(input_tensor,
           attention_output = layer_norm(attention_output + layer_input)
 
     # Down-project back to `hidden_size` then add the residual.
-    with tf.variable_scope("output"):
+    with tf.variable_scope("output2"):
       layer_output = tf.layers.dense(
           attention_output,
           hidden_size,
