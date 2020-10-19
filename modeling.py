@@ -815,6 +815,14 @@ def transformer_model(input_tensor,
           # them to the self-attention head before the projection.
           attention_output = tf.concat(attention_heads, axis=-1)
 
+              # The activation is only applied to the "intermediate" hidden layer.
+        with tf.variable_scope("intermediate"):
+          attention_output = tf.layers.dense(
+              attention_output,
+              hidden_size,
+              activation=intermediate_act_fn,
+              kernel_initializer=create_initializer(initializer_range))
+
         attention_output = dropout(attention_output, hidden_dropout_prob)
         prev_output = layer_norm(attention_output) + layer_input
         all_layer_outputs.append(prev_output)
